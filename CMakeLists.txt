@@ -22,6 +22,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Makefile generators on apple need this flag to compile mixed objective/c++
 if( APPLE AND NOT XCODE )
 	set( CMAKE_CXX_FLAGS "-ObjC++" )
+elseif( MSVC )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${NB_PROCS}")
 endif()
 
 option( BGFX_BUILD_TOOLS      "Build bgfx tools."                             ON  )
@@ -40,6 +42,11 @@ set( BGFX_OPENGLES_VERSION ""       CACHE STRING "Specify minimum OpenGL ES vers
 set( BGFX_LIBRARY_TYPE     "STATIC" CACHE STRING "Linking type for library" )
 
 set_property( CACHE BGFX_LIBRARY_TYPE PROPERTY STRINGS STATIC SHARED )
+set(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "add a debug postfix globally")
+set(CMAKE_DEBUG_POSTFIX "rd" CACHE STRING "add a release with debug postfix globally")
+
+
+set( CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/bgfx-install)
 
 if( NOT BX_DIR )
 	set( BX_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bx" CACHE STRING "Location of bx." )
